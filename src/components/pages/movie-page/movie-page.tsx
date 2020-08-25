@@ -6,12 +6,15 @@ import { Movie } from 'src/modules/movies/types';
 import { useParams } from 'react-router-dom';
 import { getMovieRequest } from 'src/modules/movies/actions';
 import Poster from 'src/components/poster';
+import useAuth from 'src/hooks/use-auth';
 
 type Props = {};
 
 function MoviePage() {
   const { id: movieId } = useParams();
   const dispatch = useDispatch();
+
+  const { isAuthorized } = useAuth();
   const movie = useSelector((state: RootState) =>
     state.movies.data.results.find(
       (movie: Movie) => movie.id === Number(movieId)
@@ -49,7 +52,7 @@ function MoviePage() {
           <h2>{movie.title}</h2>
           <div>{new Date(movie.release_date).toLocaleDateString()}</div>
           <p>{movie.overview}</p>
-          <button>add to fav</button>
+          {isAuthorized ? <button>add to fav</button> : null}
         </Grid>
       </Grid>
     </Paper>

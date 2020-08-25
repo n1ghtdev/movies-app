@@ -14,6 +14,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { searchMovieRequest } from 'src/modules/movies/actions';
+import useAuth from 'src/hooks/use-auth';
 
 const schema = Yup.object({
   query: Yup.string().min(2).required('Enter a movie title'),
@@ -34,6 +35,7 @@ const StyledLink = styled(Link)`
 function Header() {
   const dispatch = useDispatch();
   const history = useHistory();
+  const { user, isAuthorized } = useAuth();
 
   const { handleSubmit, handleChange, values, errors } = useFormik({
     initialValues,
@@ -64,10 +66,13 @@ function Header() {
             </InputLabel>
             <Button type="submit">Search</Button>
           </form>
-          <span>Welcome, Guest</span>
+          <span>Welcome, {isAuthorized ? user.firstName : 'Guest'}</span>
           <div>
-            <StyledLink to="/login">Login</StyledLink>
-            <StyledLink to="/logout">Logout</StyledLink>
+            {isAuthorized ? (
+              <StyledLink to="/logout">Logout</StyledLink>
+            ) : (
+              <StyledLink to="/login">Login</StyledLink>
+            )}
           </div>
         </Toolbar>
       </Container>

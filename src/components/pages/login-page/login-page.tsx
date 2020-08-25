@@ -6,9 +6,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'src/modules/reducers';
 import { useHistory } from 'react-router-dom';
 
-type Props = {};
-
-function LoginPage(props: Props) {
+function LoginPage() {
   const history = useHistory();
   const isAuthorized = useSelector(
     (state: RootState) => state.user.isAuthorized
