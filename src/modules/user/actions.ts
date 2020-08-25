@@ -3,7 +3,7 @@ import { Action } from 'redux';
 
 import { RootState } from '../reducers';
 import { Types, User } from './types';
-import { signUp, signIn, reAuth, logout } from 'src/api/auth-mock';
+import { signUp, signIn, reAuth, logout, update } from 'src/api/auth-mock';
 
 export function signUpRequest(
   user: any
@@ -120,5 +120,20 @@ export function logoutAction(): ThunkAction<
 export function logoutSuccess() {
   return {
     type: Types.LOGOUT,
+  };
+}
+
+export function updateProfile(
+  user: User
+): ThunkAction<void, RootState, unknown, Action<string>> {
+  return async (dispatch) => {
+    update(user).then(
+      (user: User) => {
+        dispatch(signUpSuccess(user));
+      },
+      (error: Error) => {
+        dispatch(signUpFailure(error));
+      }
+    );
   };
 }

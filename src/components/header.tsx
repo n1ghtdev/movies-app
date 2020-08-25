@@ -80,9 +80,14 @@ function Header() {
             <Button type="submit">Search</Button>
           </form>
           <span>Welcome, {isAuthorized ? user.firstName : 'Guest'}</span>
-          <div>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
             {isAuthorized ? (
-              <StyledButton onClick={() => handleLogout()}>Logout</StyledButton>
+              <>
+                <StyledLink to="/profile">Profile</StyledLink>
+                <StyledButton onClick={() => handleLogout()}>
+                  Logout
+                </StyledButton>
+              </>
             ) : (
               <StyledLink to="/login">login</StyledLink>
             )}

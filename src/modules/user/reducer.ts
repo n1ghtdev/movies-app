@@ -8,6 +8,7 @@ const initialState: State = {
     lastName: '',
     email: '',
     gender: '',
+    password: '',
   },
   isAuthorized: false,
   loading: false,

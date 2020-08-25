@@ -1,3 +1,5 @@
+import { User } from 'src/modules/user/types';
+
 const db = window.localStorage;
 const dbName = 'users';
 const signedDbName = 'signed';
@@ -12,7 +14,6 @@ export function signUp<T>(user: any): Promise<T> {
         throw new Error('User with this email already exists');
       } else {
         addUser(user);
-        delete user.password;
         addUserToSigned(user);
         resolve(user);
       }
@@ -37,7 +38,6 @@ export function signIn<T>({
       if (!user) {
         throw new Error('User not found');
       } else if (user.password === password) {
-        delete user.password;
         addUserToSigned(user);
         resolve(user);
       }
@@ -52,11 +52,31 @@ export function reAuth<T>(): Promise<T> {
     try {
       const signedUser = JSON.parse(db.getItem(signedDbName) || 'false');
       if (signedUser) {
-        delete signedUser.password;
         resolve(signedUser);
       } else {
         throw new Error('Session Expired');
       }
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+
+export function update(user: User): Promise<User> {
+  return new Promise((resolve, reject) => {
+    try {
+      const users = JSON.parse(db.getItem(dbName) || '[]');
+
+      removeUserFromSigned();
+      db.removeItem(dbName);
+
+      db.setItem(signedDbName, JSON.stringify(user));
+      const newUsers = users.filter(
+        (dbUser: any) => dbUser.email !== user.email
+      );
+      newUsers.push(user);
+      db.setItem(dbName, JSON.stringify(newUsers));
+      resolve(user);
     } catch (err) {
       reject(err);
     }

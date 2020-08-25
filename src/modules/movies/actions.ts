@@ -3,13 +3,13 @@ import { Action } from 'redux';
 
 import { RootState } from '../reducers';
 import { Types, ResponseData, Movie } from './types';
-import { searchMoviesByQuery, getMovieById } from 'src/api';
+import { searchMoviesByQuery, getMovieById, fetchMore } from 'src/api';
 
 export function searchMovieRequest(
   query: string
 ): ThunkAction<void, RootState, unknown, Action<string>> {
   return async (dispatch) => {
-    dispatch({ type: Types.SEARCH_MOVIE_REQUEST });
+    dispatch({ type: Types.SEARCH_MOVIE_REQUEST, payload: { query } });
 
     searchMoviesByQuery(query).then(
       (data: ResponseData) => {
@@ -71,6 +71,33 @@ export function getMovieFailure(error: Error) {
     type: Types.GET_MOVIE_FAILURE,
     payload: {
       error,
+    },
+  };
+}
+
+export function fetchMoreRequest(
+  query: string,
+  page: number
+): ThunkAction<void, RootState, unknown, Action<string>> {
+  return async (dispatch) => {
+    dispatch({ type: Types.FETCH_MORE_REQUEST });
+
+    fetchMore(query, page).then(
+      (data: ResponseData) => {
+        dispatch(fetchMoreSuccess(data));
+      },
+      (error: Error) => {
+        dispatch(searchMovieFailure(error));
+      }
+    );
+  };
+}
+
+export function fetchMoreSuccess(data: ResponseData) {
+  return {
+    type: Types.FETCH_MORE_SUCCESS,
+    payload: {
+      data,
     },
   };
 }

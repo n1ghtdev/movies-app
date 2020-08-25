@@ -22,4 +22,5 @@ export type User = {
   lastName: string;
   email: string;
   gender: string;
+  password: string;
 };

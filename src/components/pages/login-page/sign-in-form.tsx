@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import {
   InputLabel,
   Input,
@@ -12,13 +11,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/modules/reducers';
 import { signInRequest } from 'src/modules/user/actions';
-
-const schema = Yup.object({
-  email: Yup.string()
-    .email('Please enter a valid email')
-    .required('Please enter a valid email'),
-  password: Yup.string().min(4).required('Please enter your password'),
-});
+import { signInSchema } from 'src/utils/schemas';
 
 const initialValues = {
   email: '',
@@ -32,8 +25,14 @@ const Form = styled.form`
     margin-bottom: 20px;
   }
 `;
+
 const FormTitle = styled.h2`
   margin: 0 0 20px 0;
+`;
+
+const StyledButton = styled(Button)`
+  margin: 0 auto;
+  display: block;
 `;
 
 function SignInForm() {
@@ -45,7 +44,7 @@ function SignInForm() {
 
   const { handleChange, handleSubmit, values, errors, touched } = useFormik({
     initialValues,
-    validationSchema: schema,
+    validationSchema: signInSchema,
     onSubmit: submitForm,
   });
 
@@ -82,7 +81,9 @@ function SignInForm() {
         </FormHelperText>
       </div>
       <div>
-        <Button type="submit">Sign Up</Button>
+        <StyledButton type="submit" color="primary" variant="contained">
+          Sign Up
+        </StyledButton>
         {authLoading ? <CircularProgress /> : null}
       </div>
       <FormHelperText style={{ marginTop: '20px' }} error={true}>

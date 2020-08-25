@@ -11,19 +11,35 @@ const initialState: State = {
   },
   loading: false,
   error: null,
+  query: '',
 };
 
 const reducer = (state: State = initialState, action: AnyAction) =>
   produce(state, (draft) => {
     switch (action.type) {
       case Types.SEARCH_MOVIE_REQUEST:
+        draft.loading = true;
+        draft.error = null;
+        draft.query = action.payload.query;
+        break;
       case Types.GET_MOVIE_REQUEST:
+      case Types.FETCH_MORE_REQUEST:
         draft.loading = true;
         draft.error = null;
         break;
       case Types.SEARCH_MOVIE_SUCCESS:
         draft.loading = false;
         draft.data = action.payload.data;
+        break;
+      case Types.FETCH_MORE_SUCCESS:
+        const { data } = action.payload;
+        draft.loading = false;
+        draft.data = {
+          page: data.page,
+          total_pages: data.total_pages,
+          total_results: data.total_results,
+          results: [...state.data.results, ...data.results],
+        };
         break;
       case Types.GET_MOVIE_SUCCESS:
         const { movie } = action.payload;

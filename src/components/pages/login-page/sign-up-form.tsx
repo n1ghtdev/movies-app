@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import {
   InputLabel,
   Input,
@@ -13,25 +12,9 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { signUpRequest } from 'src/modules/user/actions';
 import { RootState } from 'src/modules/reducers';
+import { signUpSchema } from 'src/utils/schemas';
 
 const genders = ['Female', 'Male'];
-
-const schema = Yup.object({
-  firstName: Yup.string().min(4).required('Please enter your first name'),
-  lastName: Yup.string().min(4).required('Please enter your last name'),
-  email: Yup.string()
-    .email('Please enter a valid email')
-    .required('Please enter a valid email'),
-  gender: Yup.string().required(''),
-  password: Yup.string().min(4).required('Please enter your password'),
-  passwordConfirm: Yup.string().when('password', {
-    is: (val: string) => (val && val.length > 0 ? true : false),
-    then: Yup.string().oneOf(
-      [Yup.ref('password')],
-      'Both passwords need to be the same'
-    ),
-  }),
-});
 
 const initialValues = {
   firstName: '',
@@ -53,6 +36,11 @@ const FormTitle = styled.h2`
   margin: 0 0 20px 0;
 `;
 
+const StyledButton = styled(Button)`
+  margin: 0 auto;
+  display: block;
+`;
+
 function SignUpForm() {
   const [isSubmitted, setIsSubmitted] = React.useState(false);
   const dispatch = useDispatch();
@@ -62,7 +50,7 @@ function SignUpForm() {
 
   const { handleChange, handleSubmit, values, errors, touched } = useFormik({
     initialValues,
-    validationSchema: schema,
+    validationSchema: signUpSchema,
     onSubmit: submitForm,
   });
 
@@ -146,7 +134,9 @@ function SignUpForm() {
         </FormHelperText>
       </div>
       <div>
-        <Button type="submit">Sign Up</Button>
+        <StyledButton type="submit" color="primary" variant="contained">
+          Sign Up
+        </StyledButton>
         {authLoading ? <CircularProgress /> : null}
       </div>
       <FormHelperText style={{ marginTop: '20px' }} error={true}>

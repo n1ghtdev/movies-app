@@ -2,6 +2,7 @@ export type State = {
   data: ResponseData;
   loading: boolean;
   error: Error | null;
+  query: string;
 };
 
 export type ResponseData = {
@@ -36,4 +37,8 @@ export enum Types {
   GET_MOVIE_REQUEST = '@@get-movie/request',
   GET_MOVIE_SUCCESS = '@@get-movie/success',
   GET_MOVIE_FAILURE = '@@get-movie/failure',
+
+  FETCH_MORE_REQUEST = '@@fetch-more/request',
+  FETCH_MORE_SUCCESS = '@@fetch-more/success',
+  FETCH_MORE_FAILURE = '@@fetch-more/failure',
 }
