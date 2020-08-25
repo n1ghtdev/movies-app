@@ -6,7 +6,6 @@ import {
   InputLabel,
   Input,
   Button,
-  FormHelperText,
   Container,
 } from '@material-ui/core';
 import { Link, useHistory } from 'react-router-dom';
