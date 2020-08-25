@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "description": "",
+  "homepage": "http://n1ghtdev.github.io/movies-app",
   "repository": {
     "type": "git",
     "url": "git://github.com/n1ghtdev/movies-app"
