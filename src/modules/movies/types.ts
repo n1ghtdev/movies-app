@@ -32,4 +32,8 @@ export enum Types {
   SEARCH_MOVIE_REQUEST = '@@search-movie/request',
   SEARCH_MOVIE_SUCCESS = '@@search-movie/success',
   SEARCH_MOVIE_FAILURE = '@@search-movie/failure',
+
+  GET_MOVIE_REQUEST = '@@get-movie/request',
+  GET_MOVIE_SUCCESS = '@@get-movie/success',
+  GET_MOVIE_FAILURE = '@@get-movie/failure',
 }

@@ -15,3 +15,10 @@ fields:
 movie title
 poster (https://image.tmdb.org/t/p/w500/{poster_path})
 click on movie -> movie details
+
+movie page
+title
+poster
+release date
+description
+add to fav button if signed in

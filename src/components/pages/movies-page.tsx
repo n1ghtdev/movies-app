@@ -1,15 +1,12 @@
 import React from 'react';
 import {
-  Paper,
   Grid,
   Container,
-  FormControl,
   InputLabel,
   Input,
   Button,
   FormHelperText,
 } from '@material-ui/core';
-import styled from 'styled-components';
 import MovieCard from '../movie-card';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/modules/reducers';
