@@ -28,7 +28,7 @@ function MoviesPage() {
   return (
     <Grid container spacing={5}>
       {data.results.map((movie: Movie) => (
-        <Grid item key={movie.id} md={4}>
+        <Grid item key={movie.id} xs={12} sm={6} md={4}>
           <MovieCard
             id={movie.id}
             title={movie.title}

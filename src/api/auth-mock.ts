@@ -1,5 +1,6 @@
 const db = window.localStorage;
 const dbName = 'users';
+const signedDbName = 'signed';
 
 export function signUp<T>(user: any): Promise<T> {
   return new Promise((resolve, reject) => {
@@ -12,6 +13,7 @@ export function signUp<T>(user: any): Promise<T> {
       } else {
         addUser(user);
         delete user.password;
+        addUserToSigned(user);
         resolve(user);
       }
     } catch (err) {
@@ -36,6 +38,7 @@ export function signIn<T>({
         throw new Error('User not found');
       } else if (user.password === password) {
         delete user.password;
+        addUserToSigned(user);
         resolve(user);
       }
     } catch (err) {
@@ -44,8 +47,51 @@ export function signIn<T>({
   });
 }
 
+export function reAuth<T>(): Promise<T> {
+  return new Promise((resolve, reject) => {
+    try {
+      const signedUser = JSON.parse(db.getItem(signedDbName) || 'false');
+      if (signedUser) {
+        delete signedUser.password;
+        resolve(signedUser);
+      } else {
+        throw new Error('Session Expired');
+      }
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+
+export function logout() {
+  return new Promise((resolve, reject) => {
+    try {
+      removeUserFromSigned();
+      resolve();
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+
+function removeUserFromSigned() {
+  const signed = JSON.parse(db.getItem(signedDbName) || 'false');
+  if (signed) {
+    db.removeItem(signedDbName);
+  }
+}
+
+function addUserToSigned(user: any) {
+  const signed = JSON.parse(db.getItem(signedDbName) || 'false');
+  if (signed) {
+    db.removeItem(signedDbName);
+  }
+  db.setItem(signedDbName, JSON.stringify(user));
+}
+
 function addUser(user: any) {
   const users = JSON.parse(db.getItem(dbName) || '[]');
+
   const isDbExist = Array.isArray(users) && users.length > 0;
 
   if (!isDbExist) {

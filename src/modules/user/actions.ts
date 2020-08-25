@@ -3,7 +3,7 @@ import { Action } from 'redux';
 
 import { RootState } from '../reducers';
 import { Types, User } from './types';
-import { signUp, signIn } from 'src/api/auth-mock';
+import { signUp, signIn, reAuth, logout } from 'src/api/auth-mock';
 
 export function signUpRequest(
   user: any
@@ -61,6 +61,26 @@ export function signInRequest({
   };
 }
 
+export function reAuthRequest(): ThunkAction<
+  void,
+  RootState,
+  unknown,
+  Action<string>
+> {
+  return async (dispatch) => {
+    dispatch({ type: Types.SIGNIN_REQUEST });
+
+    reAuth().then(
+      (user: any) => {
+        dispatch(signInSuccess(user as User));
+      },
+      (error: Error) => {
+        dispatch(signInFailure(error));
+      }
+    );
+  };
+}
+
 export function signInSuccess(user: User) {
   return {
     type: Types.SIGNIN_SUCCESS,
@@ -76,5 +96,29 @@ export function signInFailure(error: Error) {
     payload: {
       error,
     },
+  };
+}
+
+export function logoutAction(): ThunkAction<
+  void,
+  RootState,
+  unknown,
+  Action<string>
+> {
+  return async (dispatch) => {
+    logout().then(
+      () => {
+        dispatch(logoutSuccess());
+      },
+      (error: Error) => {
+        console.error(error);
+      }
+    );
+  };
+}
+
+export function logoutSuccess() {
+  return {
+    type: Types.LOGOUT,
   };
 }

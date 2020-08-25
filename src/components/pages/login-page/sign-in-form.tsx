@@ -37,6 +37,7 @@ const FormTitle = styled.h2`
 `;
 
 function SignInForm() {
+  const [isSubmitted, setIsSubmitted] = React.useState(false);
   const dispatch = useDispatch();
   const { loading: authLoading, error: authError } = useSelector(
     (state: RootState) => state.user
@@ -55,6 +56,7 @@ function SignInForm() {
         password: values.password,
       })
     );
+    setIsSubmitted(true);
   }
 
   return (
@@ -84,7 +86,7 @@ function SignInForm() {
         {authLoading ? <CircularProgress /> : null}
       </div>
       <FormHelperText style={{ marginTop: '20px' }} error={true}>
-        {authError?.message || ''}
+        {isSubmitted ? authError?.message || '' : null}
       </FormHelperText>
     </Form>
   );

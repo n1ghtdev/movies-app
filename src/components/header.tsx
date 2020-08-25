@@ -15,6 +15,7 @@ import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { searchMovieRequest } from 'src/modules/movies/actions';
 import useAuth from 'src/hooks/use-auth';
+import { logoutAction } from 'src/modules/user/actions';
 
 const schema = Yup.object({
   query: Yup.string().min(2).required('Enter a movie title'),
@@ -32,12 +33,18 @@ const StyledLink = styled(Link)`
   margin-left: 20px;
 `;
 
+const StyledButton = styled(Button)`
+  color: #fff;
+  font-weight: bold;
+  margin-left: 20px;
+`;
+
 function Header() {
   const dispatch = useDispatch();
   const history = useHistory();
   const { user, isAuthorized } = useAuth();
 
-  const { handleSubmit, handleChange, values, errors } = useFormik({
+  const { handleSubmit, handleChange, values } = useFormik({
     initialValues,
     validationSchema: schema,
     onSubmit: (values: any) => submitQuerySearch(values),
@@ -47,6 +54,13 @@ function Header() {
     dispatch(searchMovieRequest(values.query));
     history.push('/movies');
   }
+
+  function handleLogout() {
+    if (isAuthorized) {
+      dispatch(logoutAction());
+    }
+  }
+
   return (
     <AppBar position="fixed">
       <Container>
@@ -62,16 +76,15 @@ function Header() {
                 id="query"
                 placeholder="Inception"
               />
-              <FormHelperText>{errors ? errors.query : null}</FormHelperText>
             </InputLabel>
             <Button type="submit">Search</Button>
           </form>
           <span>Welcome, {isAuthorized ? user.firstName : 'Guest'}</span>
           <div>
             {isAuthorized ? (
-              <StyledLink to="/logout">Logout</StyledLink>
+              <StyledButton onClick={() => handleLogout()}>Logout</StyledButton>
             ) : (
-              <StyledLink to="/login">Login</StyledLink>
+              <StyledLink to="/login">login</StyledLink>
             )}
           </div>
         </Toolbar>
