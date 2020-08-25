@@ -7,8 +7,6 @@ import { ResponseData, Movie } from 'src/modules/movies/types';
 const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
 const API_URL = 'https://api.themoviedb.org/3';
 
-const buildAPIUrl = (url: string) => `${API_URL}${url}?api_key=${API_KEY}`;
-
 const headers = {
   'content-type': 'application/json',
 };
