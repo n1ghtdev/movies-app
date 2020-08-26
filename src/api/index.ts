@@ -39,3 +39,12 @@ export async function getMovieById(id: number) {
 
   return movie;
 }
+
+export async function getMovies(ids: number[]) {
+  return await Promise.all(
+    ids.map(async (id: number) => {
+      const response = await getMovieById(id);
+      return response;
+    })
+  );
+}

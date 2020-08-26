@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Paper } from '@material-ui/core';
+import { Grid, Paper, Button } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/modules/reducers';
 import { Movie } from 'src/modules/movies/types';
@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import { getMovieRequest } from 'src/modules/movies/actions';
 import Poster from 'src/components/poster';
 import useAuth from 'src/hooks/use-auth';
+import { addFavoriteRequest } from 'src/modules/favorites/actions';
 
 type Props = {};
 
@@ -21,14 +22,21 @@ function MoviePage() {
     )
   );
   const { loading, error } = useSelector((state: RootState) => state.movies);
-
-  console.log(movie);
+  const isFavorite = useSelector(
+    (state: RootState) =>
+      state.favorites.ids.findIndex((id: number) => id === Number(movieId)) !==
+      -1
+  );
 
   React.useEffect(() => {
     if (!movie) {
       dispatch(getMovieRequest(Number(movieId)));
     }
   }, [dispatch, movie, movieId]);
+
+  function addToFavorites() {
+    dispatch(addFavoriteRequest(movieId));
+  }
 
   if (loading) {
     return <span>'loading...'</span>;
@@ -52,7 +60,16 @@ function MoviePage() {
           <h2>{movie.title}</h2>
           <div>{new Date(movie.release_date).toLocaleDateString()}</div>
           <p>{movie.overview}</p>
-          {isAuthorized ? <button>add to fav</button> : null}
+          {isAuthorized ? (
+            <Button
+              disabled={isFavorite}
+              onClick={() => addToFavorites()}
+              color="primary"
+              variant="contained"
+            >
+              {isFavorite ? 'In favorites' : 'Add to favorites'}
+            </Button>
+          ) : null}
         </Grid>
       </Grid>
     </Paper>

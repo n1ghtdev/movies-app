@@ -15,19 +15,30 @@ const Wrapper = styled.img`
 
 function Poster({ path, alt }: Props) {
   const [posterUrl, setPosterUrl] = React.useState(
-    'https://via.placeholder.com/500'
+    'https://via.placeholder.com/400x640'
   );
   React.useEffect(() => {
     // TODO:
+    let controller = new AbortController();
     (async () => {
       if (path !== null) {
-        const response = await fetch(`https://image.tmdb.org/t/p/w500/${path}`);
+        try {
+          const response = await fetch(
+            `https://image.tmdb.org/t/p/w500/${path}`,
+            { signal: controller.signal }
+          );
 
-        if (response.ok && response.url) {
-          setPosterUrl(response.url);
+          if (response.ok && response.url) {
+            setPosterUrl(response.url);
+          }
+        } catch (err) {
+          console.error(err);
         }
       }
     })();
+    return () => {
+      controller.abort();
+    };
   }, [path]);
   return <Wrapper src={posterUrl} alt={alt} />;
 }

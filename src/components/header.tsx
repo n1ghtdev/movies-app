@@ -83,6 +83,7 @@ function Header() {
             {isAuthorized ? (
               <>
                 <StyledLink to="/profile">Profile</StyledLink>
+                <StyledLink to="/favorites">Favorites</StyledLink>
                 <StyledButton onClick={() => handleLogout()}>
                   Logout
                 </StyledButton>

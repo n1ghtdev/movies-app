@@ -3,7 +3,12 @@ import { Action } from 'redux';
 
 import { RootState } from '../reducers';
 import { Types, ResponseData, Movie } from './types';
-import { searchMoviesByQuery, getMovieById, fetchMore } from 'src/api';
+import {
+  searchMoviesByQuery,
+  getMovieById,
+  fetchMore,
+  getMovies,
+} from 'src/api';
 
 export function searchMovieRequest(
   query: string
@@ -98,6 +103,41 @@ export function fetchMoreSuccess(data: ResponseData) {
     type: Types.FETCH_MORE_SUCCESS,
     payload: {
       data,
+    },
+  };
+}
+
+export function getMoviesRequest(
+  ids: number[]
+): ThunkAction<void, RootState, unknown, Action<string>> {
+  return async (dispatch) => {
+    dispatch({ type: Types.GET_MOVIES_REQUEST });
+
+    getMovies(ids).then(
+      (data: Movie[]) => {
+        dispatch(getMoviesSuccess(data));
+      },
+      (error: Error) => {
+        dispatch(getMoviesFailure(error));
+      }
+    );
+  };
+}
+
+export function getMoviesSuccess(data: Movie[]) {
+  return {
+    type: Types.GET_MOVIES_SUCCESS,
+    payload: {
+      data,
+    },
+  };
+}
+
+export function getMoviesFailure(error: Error) {
+  return {
+    type: Types.GET_MOVIES_FAILURE,
+    payload: {
+      error,
     },
   };
 }

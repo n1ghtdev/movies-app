@@ -5,6 +5,7 @@ import MoviesPage from './components/pages/movies-page';
 import MoviePage from './components/pages/movie-page';
 import PrivateRoute from './components/private-route';
 import ProfilePage from './components/pages/profile-page';
+import FavoritesPage from './components/pages/favorites-page';
 
 function Routes() {
   return (
@@ -13,7 +14,7 @@ function Routes() {
       <Route exact path="/movies" component={MoviesPage} />
       <Route exact path="/movies/:id" component={MoviePage} />
       <PrivateRoute exact path="/profile" component={ProfilePage} />
-      {/* <Route exact path="/admin" component={<div>admin</div>} /> */}
+      <PrivateRoute exact path="/favorites" component={FavoritesPage} />
     </Switch>
   );
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid, Button } from '@material-ui/core';
 import MovieCard from '../movie-card';
+import MoviesLoading from '../movies-loading';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/modules/reducers';
 import { Movie } from 'src/modules/movies/types';
@@ -47,7 +48,7 @@ function MoviesPage() {
   }
 
   if (loading) {
-    return <span>'loading...'</span>;
+    return <MoviesLoading />;
   }
   if (error) {
     return <span>{error.message}</span>;

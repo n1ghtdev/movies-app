@@ -23,6 +23,7 @@ const reducer = (state: State = initialState, action: AnyAction) =>
         draft.query = action.payload.query;
         break;
       case Types.GET_MOVIE_REQUEST:
+      case Types.GET_MOVIES_REQUEST:
       case Types.FETCH_MORE_REQUEST:
         draft.loading = true;
         draft.error = null;
@@ -31,7 +32,21 @@ const reducer = (state: State = initialState, action: AnyAction) =>
         draft.loading = false;
         draft.data = action.payload.data;
         break;
-      case Types.FETCH_MORE_SUCCESS:
+      case Types.GET_MOVIES_SUCCESS: {
+        const { data } = action.payload;
+        draft.loading = false;
+        data.forEach((movie: Movie) => {
+          if (
+            state.data.results.findIndex(
+              (stateMovie: Movie) => stateMovie.id === movie.id
+            ) === -1
+          ) {
+            draft.data.results.push(movie);
+          }
+        });
+        break;
+      }
+      case Types.FETCH_MORE_SUCCESS: {
         const { data } = action.payload;
         draft.loading = false;
         draft.data = {
@@ -41,6 +56,7 @@ const reducer = (state: State = initialState, action: AnyAction) =>
           results: [...state.data.results, ...data.results],
         };
         break;
+      }
       case Types.GET_MOVIE_SUCCESS:
         const { movie } = action.payload;
 
@@ -54,8 +70,9 @@ const reducer = (state: State = initialState, action: AnyAction) =>
 
         draft.loading = false;
         break;
-      case Types.SEARCH_MOVIE_FAILURE:
       case Types.GET_MOVIE_FAILURE:
+      case Types.GET_MOVIES_FAILURE:
+      case Types.SEARCH_MOVIE_FAILURE:
         draft.loading = false;
         draft.error = action.payload.error;
         break;
