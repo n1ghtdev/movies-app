@@ -1,7 +1,6 @@
 import produce from 'immer';
 import { AnyAction } from 'redux';
 import { Types, State } from './types';
-import { Movie } from '../movies/types';
 
 const initialState: State = {
   ids: [],
