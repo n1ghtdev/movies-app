@@ -11,9 +11,10 @@ import {
   CircularProgress,
 } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
+import { useFormik } from 'formik';
+
 import useAuth from 'src/hooks/use-auth';
 import { signUpSchema } from 'src/utils/schemas';
-import { useFormik } from 'formik';
 import { RootState } from 'src/modules/reducers';
 import { updateProfile } from 'src/modules/user/actions';
 
@@ -34,12 +35,12 @@ const StyledButton = styled(Button)`
 `;
 
 function ProfilePage() {
+  const { user } = useAuth();
   const [isSubmitted, setIsSubmitted] = React.useState(false);
   const dispatch = useDispatch();
   const { loading: authLoading, error: authError } = useSelector(
     (state: RootState) => state.user
   );
-  const { user } = useAuth();
 
   const initialValues = { ...user, passwordConfirm: user.password };
   const {

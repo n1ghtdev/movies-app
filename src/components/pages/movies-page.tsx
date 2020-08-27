@@ -1,8 +1,7 @@
 import React from 'react';
 import { Grid, Button } from '@material-ui/core';
-import MovieCard from '../movie-card';
-import MoviesLoading from '../movies-loading';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { RootState } from 'src/modules/reducers';
 import { Movie } from 'src/modules/movies/types';
 import {
@@ -10,7 +9,8 @@ import {
   fetchMoreRequest,
 } from 'src/modules/movies/actions';
 
-type Props = {};
+import MovieCard from '../movie-card';
+import MoviesLoading from '../movies-loading';
 
 function MoviesPage() {
   const dispatch = useDispatch();
@@ -20,8 +20,6 @@ function MoviesPage() {
   );
 
   React.useEffect(() => {
-    console.log('only once');
-
     dispatch(searchMovieRequest(''));
   }, [dispatch]);
 
@@ -69,11 +67,16 @@ function MoviesPage() {
           />
         </Grid>
       ))}
-      <Grid item xs={12}>
+      <Grid
+        container
+        justify="center"
+        alignItems="center"
+        style={{ margin: '20px 0 40px 0' }}
+      >
         <Button disabled={currentPage === 0} onClick={() => prevPage()}>
           prev page
         </Button>
-        {currentPage + 1}
+        <span style={{ padding: '0 20px' }}>{currentPage + 1}</span>
         <Button
           disabled={(currentPage + 1) * 15 >= data.total_results}
           onClick={() => nextPage()}

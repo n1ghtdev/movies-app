@@ -10,6 +10,7 @@ import {
   CircularProgress,
 } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { signUpRequest } from 'src/modules/user/actions';
 import { RootState } from 'src/modules/reducers';
 import { signUpSchema } from 'src/utils/schemas';

@@ -1,15 +1,15 @@
 import React from 'react';
-import { Grid, Paper, Button } from '@material-ui/core';
+import { Grid, Paper, Button, CircularProgress } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+
 import { RootState } from 'src/modules/reducers';
 import { Movie } from 'src/modules/movies/types';
-import { useParams } from 'react-router-dom';
 import { getMovieRequest } from 'src/modules/movies/actions';
-import Poster from 'src/components/poster';
-import useAuth from 'src/hooks/use-auth';
 import { addFavoriteRequest } from 'src/modules/favorites/actions';
+import useAuth from 'src/hooks/use-auth';
 
-type Props = {};
+import Poster from 'src/components/poster';
 
 function MoviePage() {
   const { id: movieId } = useParams();
@@ -39,7 +39,7 @@ function MoviePage() {
   }
 
   if (loading) {
-    return <span>'loading...'</span>;
+    return <CircularProgress />;
   }
 
   if (error) {

@@ -5,6 +5,7 @@ import {
   RouteComponentProps,
   RouteProps,
 } from 'react-router-dom';
+
 import useAuth from 'src/hooks/use-auth';
 
 type Props = {

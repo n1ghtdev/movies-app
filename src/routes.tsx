@@ -10,6 +10,7 @@ import FavoritesPage from './components/pages/favorites-page';
 function Routes() {
   return (
     <Switch>
+      <Route exact path="/" component={MoviesPage} />
       <Route exact path="/login" component={LoginPage} />
       <Route exact path="/movies" component={MoviesPage} />
       <Route exact path="/movies/:id" component={MoviePage} />

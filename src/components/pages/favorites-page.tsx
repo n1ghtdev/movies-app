@@ -9,15 +9,18 @@ import {
   TableBody,
 } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { RootState } from 'src/modules/reducers';
 import { Movie } from 'src/modules/movies/types';
 import { getMoviesRequest } from 'src/modules/movies/actions';
-import Poster from '../poster';
 import { deleteFavoriteRequest } from 'src/modules/favorites/actions';
+
+import Poster from '../poster';
 
 function FavoritesPage() {
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = React.useState(0);
+
   const { ids } = useSelector((state: RootState) => state.favorites);
   const { movies, loading, error } = useSelector((state: RootState) => ({
     movies: state.movies.data.results.filter((movie: Movie) => {
