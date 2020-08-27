@@ -22,13 +22,23 @@ async function get<T>(url: string): Promise<T> {
 }
 
 export async function searchMoviesByQuery(query: string) {
-  const url = `${API_URL}/search/movie?api_key=${API_KEY}&query=${query}`;
+  let url = `${API_URL}/search/movie?api_key=${API_KEY}&query=${query}`;
+
+  if (!query) {
+    url = `${API_URL}/movie/popular?api_key=${API_KEY}`;
+  }
+
   const movies = await get<ResponseData>(url);
   return movies;
 }
 
 export async function fetchMore(query: string, page: number) {
-  const url = `${API_URL}/search/movie?api_key=${API_KEY}&query=${query}&page=${page}`;
+  let url = `${API_URL}/search/movie?api_key=${API_KEY}&query=${query}&page=${page}`;
+
+  if (!query) {
+    url = `${API_URL}/movie/popular?api_key=${API_KEY}&page=${page}`;
+  }
+
   const movies = await get<ResponseData>(url);
   return movies;
 }

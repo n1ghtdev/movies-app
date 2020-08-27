@@ -20,7 +20,9 @@ function MoviesPage() {
   );
 
   React.useEffect(() => {
-    dispatch(searchMovieRequest('inception'));
+    console.log('only once');
+
+    dispatch(searchMovieRequest(''));
   }, [dispatch]);
 
   React.useEffect(() => {
