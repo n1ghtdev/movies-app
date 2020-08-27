@@ -6,11 +6,12 @@ type Props = {};
 
 const MovieCardPlaceholder = styled.div``;
 
-const Poster = styled.img`
-  max-width: 100%;
-  width: auto;
-  height: auto;
-  display: block;
+const Poster = styled.div`
+  max-width: 400px;
+  max-height: 640px;
+  width: 100%;
+  height: 100%;
+  background-color: grey;
 `;
 
 function MoviesLoading() {
@@ -21,10 +22,7 @@ function MoviesLoading() {
       {placeholder.map((_: any, idx: number) => (
         <Grid item key={idx} xs={12} sm={6} md={4}>
           <MovieCardPlaceholder>
-            <Poster
-              src={'http://via.placeholder.com/400x640'}
-              alt="Placeholder"
-            />
+            <Poster />
           </MovieCardPlaceholder>
         </Grid>
       ))}

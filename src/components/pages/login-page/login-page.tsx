@@ -1,10 +1,11 @@
 import React from 'react';
 import { Paper, Grid } from '@material-ui/core';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+
 import SignUpForm from './sign-up-form';
 import SignInForm from './sign-in-form';
-import { useSelector } from 'react-redux';
 import { RootState } from 'src/modules/reducers';
-import { useHistory } from 'react-router-dom';
 
 function LoginPage() {
   const history = useHistory();
